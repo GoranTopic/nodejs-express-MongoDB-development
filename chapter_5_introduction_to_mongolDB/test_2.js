@@ -1,10 +1,11 @@
 const mongoose = require('mongoose'); // import mongoose module
 const BlogPost = require('./models/BlogPost'); // import blog post schema
 
-let url = 'mongodb://superlocalhost/my_database';
+var url = 'mongodb://superlocalhost/my_database';
 
+var uri = 'mongodb://127.0.0.1:27017/my_database';
 
-mongoose.connect( url, function(err, db) {
+mongoose.connect( uri, function(err, db) {
 		if (err) throw err;
 		console.log("Database created!");
 		db.close();
