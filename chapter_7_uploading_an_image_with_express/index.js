@@ -2,6 +2,8 @@ const express = require('express'); // import express
 const path = require('path'); // import path module
 const ejs = require('ejs'); // import embede javascript module 
 const mongoose = require('mongoose'); // import mongoose library
+const fileUpload = require('express-fileupload'); // import file upload module 
+
 
 //  url for the mongod server
 let url = 'mongodb://127.0.0.1/my_database'; 
@@ -18,6 +20,7 @@ const server = new express();
 server.use(express.static('public')); // server static file in the public directory
 server.use(express.json()); // 
 server.use(express.urlencoded());
+server.use(fileUpload()); // use file upload 
 
 // tell express to use view engine on any file ending with ejs
 server.set('view engine', 'ejs');
@@ -31,15 +34,6 @@ server.get('/', async (req, res) => {
 		res.render('index', { blogposts });
 });
 
-server.get('/posts/:id', async (req, res) => {
-		/* get server an individual post page */
-		// query the database for a post iwth the passed id
-		const blogpost = await BlogPost.findById(req.params.id); 
-		// pass te blogpost found tot he render page
-		res.render('post', { blogpost });
-});
-
-
 
 // do the same for the rest of the pages
 server.get('/about.html', (req, res) => { res.render('about') })
@@ -50,8 +44,20 @@ server.get('/posts/new', (req, res) => { res.render('create') })
 
 server.post('/posts/store', async (req, res) => {
 		/* method for handeling post request */
-		// create a blog post in the database
-		await BlogPost.create(req.body, (error, blogpost) => { console.log(req.body); res.redirect('/'); });
+		let image = req.files.image;
+		image.mv(path.resolve(__dirname, 'public/img', image.name), async (error) => {
+				// create a blog post in the database
+				await BlogPost.create({ ...req.body, image:'/img/' + image.name });
+				res.redirect('/');
+		});
+});
+
+server.get('/posts/:id', async (req, res) => {
+		/* get server an individual post page */
+		// query the database for a post iwth the passed id
+		const blogpost = await BlogPost.findById(req.params.id); 
+		// pass te blogpost found tot he render page
+		res.render('post', { blogpost });
 });
 
 // run server

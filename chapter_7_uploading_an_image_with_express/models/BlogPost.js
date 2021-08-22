@@ -11,6 +11,7 @@ const BlogPostSchema = new Schema({
 			type: Date,
 			default: new Date()
 		},
+		image: String,
 });
 
 // register that schema with 
