@@ -22,6 +22,23 @@ server.use(express.json()); //
 server.use(express.urlencoded());
 server.use(fileUpload()); // use file upload 
 
+const customMiddleWare = (req, res, next) => {
+		console.log("Custom middleware called");
+		next();
+}
+server.use(customMiddleWare);
+
+const vaildateMiddleWare = (req, res, next) => {
+		if(req.files == null || req.body.title == null){
+				// if the image or the body  of the reques is null, 
+				// redirect to new post
+				return res.redirect('/posts/new');
+		}
+		next();
+}
+
+server.use('/posts/store', vaildateMiddleWare);
+
 // tell express to use view engine on any file ending with ejs
 server.set('view engine', 'ejs');
 
