@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+		<%-include('layouts/header');-%>
+		<body>
+				<%-include('layouts/navbar');-%>
+				<!-- Page Header-->
+				<header class="masthead" style="background-image: url('/assets/img/post-bg.jpg')">
+						<div class="container position-relative px-4 px-lg-5">
+								<div class="row gx-4 gx-lg-5 justify-content-center">
+										<div class="col-md-10 col-lg-8 col-xl-7">
+												<div class="post-heading">
+														<h1>Resgister a new Account</h1>
+												</div>
+										</div>
+								</div>
+						</div>
+				</header>
+				<!-- Post Content-->
+				<main class="mb-4">
+						<div class="container px-4 px-lg-5">
+								<div class="row gx-4 gx-lg-5 justify-content-center">
+										<div class="col-md-10 col-lg-8 col-xl-7">
+												<div class="my-5">
+														<form id="registerForm" action="/users/register" method="POST" enctype="multipart/form-data">
+																<div class="form-floating">
+																		<!-- Submit username -->
+																		<input class="form-control" id="username" name="username" type="text" placeholder="User Name" data-sb-validations="required" />
+																		<label>User Name</label>
+																</div>
+																<div class="form-floating">
+																		<!-- Submit Password -->
+																		<input class="form-control" id="password" name="password" type="text" placeholder="Password" data-sb-validations="required" />
+																		<label>Password</label>
+																</div>
+																<br />
+																<!-- Submit Button-->
+																<button class="btn btn-primary text-uppercase disabled" id="submitButton" type="submit">Register</button>
+														</form>
+												</div>
+										</div>
+								</div>
+						</div>
+				</main>
+				<%-include('layouts/footer');-%>
+				<%-include('layouts/scripts');-%>
+		</body>
+</html>
