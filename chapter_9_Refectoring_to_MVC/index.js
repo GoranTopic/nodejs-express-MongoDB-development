@@ -10,6 +10,8 @@ const HomeController = require('./controllers/home');
 const getPostController = require('./controllers/getPost');
 const storePostController = require('./controllers/storePost');
 
+// import middleware
+const validationMiddleware = require('./middleware/validationMiddleware');
 
 //  url for the mongod server
 let url = 'mongodb://127.0.0.1/my_database'; 
@@ -25,23 +27,8 @@ server.use(express.json()); //
 server.use(express.urlencoded());
 server.use(fileUpload()); // use file upload 
 
-const customMiddleWare = (req, res, next) => {
-		console.log("Custom middleware called");
-		next();
-}
-server.use(customMiddleWare);
-
-const vaildateMiddleWare = (req, res, next) => {
-		if(req.files == null || req.body.title == null){
-				// if the image or the body  of the reques is null, 
-				// redirect to new post
-				return res.redirect('/posts/new');
-		}
-		next();
-}
-
 // validate middleware
-server.use('/posts/store', vaildateMiddleWare);
+server.use('/posts/store', validationMiddleware);
 
 // tell express to use view engine on any file ending with ejs
 server.set('view engine', 'ejs');
