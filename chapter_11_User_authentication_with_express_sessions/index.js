@@ -29,14 +29,7 @@ mongoose.connect( url, { useNewUrlParser: true, useUnifiedTopology: true });
 // make a new express serve instant 
 const server = new express(); 
 
-// make global fuction so that every page render can know if user is login in
-global.loggedIn = null;
 
-// make middleware so that the request write to the global valiable
-server.use("*", (req, res, next) => {
-		loggedin = req.session.userId;
-		next();
-});
 
 // define middleware for express to use
 server.use(express.static('public')); // server static file in the public directory
@@ -46,6 +39,14 @@ server.use(fileUpload()); // use file upload
 server.use('/posts/store', validationMiddleware); // validate middleware
 server.use(expressSession({ secret: 'keyboard cat' }));
 
+// make global fuction so that every page render can know if user is login in
+global.loggedIn = null;
+
+// make middleware so that the request write to the global valiable
+server.use("*", (req, res, next) => {
+		loggedIn = req.session.userId;
+		next();
+});
 
 // tell express to use view engine on any file ending with ejs
 server.set('view engine', 'ejs');
@@ -61,6 +62,8 @@ server.get('/index', renderPageController('index'));
 server.get('/posts/new', authMiddleware, renderPageController('create'));
 server.get('/auth/register', redirectIfAuthenticatedMiddleware, renderPageController('register'));
 server.get('/auth/login', redirectIfAuthenticatedMiddleware, renderPageController('login'));
+server.get('/auth/logout', authMiddleware, logoutController);
+
 
 // define controller for the post request
 server.post('/posts/store', authMiddleware, storePostController);
@@ -69,6 +72,9 @@ server.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserControll
 
 // process an individual post 
 server.get('/posts/:id', getPostController)
+
+// 404 page not found route
+server.get(renderPageController('notfound'));
 
 // run server
 server.listen(4000, () => console.log('listeing on port 40000'));
