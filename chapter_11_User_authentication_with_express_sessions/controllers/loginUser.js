@@ -11,6 +11,7 @@ module.exports = (req, res) => {
 								if(same){  
 										// password is the same, store user session
 										console.log(username + " has logged in");
+										req.session.userId = user._id
 										res.redirect('/');
 								} else { // if the password hashs to the same
 										console.log(error);
