@@ -8,7 +8,9 @@ module.exports = async (req, res) => {
 		// create a new user
 		User.create(req.body, (error, user) => {
 				if(error){ 
+						console.log("printing errors")
 						console.log(error);
+						Object.keys(error.errors).map(key => error.errors[key].message);
 						return res.redirect('/auth/register'); 
 				}
 				res.redirect('/');
