@@ -3,13 +3,13 @@ const mongoose = require('mongoose'); // import mongo Db
 const Schema = mongoose.Schema; // get the Schema obj from mongoose
 
 const BlogPostSchema = new Schema({ 
-	// define a new Schema obj
-	title: String,
-	body: String,
-	username: String,
-	datePosted: {
-			type: Date,
-			default: new Date()
+		// define a new Schema obj
+		title: String,
+		body: String,
+		username: String,
+		datePosted: {
+				type: Date,
+				default: new Date()
 		},
 		image: String,
 });
