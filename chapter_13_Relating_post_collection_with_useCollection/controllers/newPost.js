@@ -8,7 +8,6 @@ module.exports = (req, res) =>{
 		}
 		return res.render( 'create', { 
 				errors: req.flash('validationErrors'),
-				createPost: true, 
 				title: title,
 				body: body,
 		} );
