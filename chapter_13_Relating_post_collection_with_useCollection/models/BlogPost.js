@@ -7,9 +7,9 @@ const BlogPostSchema = new Schema({
 		title: String,
 		body: String,
 		//username: String,
-		userId:{
+		userid:{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: User,
+				ref: 'User',
 				required: true,
 		},
 		datePosted: {

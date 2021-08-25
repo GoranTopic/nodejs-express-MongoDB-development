@@ -13,7 +13,8 @@ module.exports = async (req, res) => {
 				async (error) => {
 						await BlogPost.create({ // create new post in db
 								...req.body,
-								image: '/img/' + image.name // save where it is stored
+								image: '/img/' + image.name, // save where it is stored
+								userid : req.session.userId, // save the suer session
 						});
 						res.redirect('/');
 				}
